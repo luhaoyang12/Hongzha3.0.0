@@ -1,0 +1,176 @@
+﻿此项目以提交github
+==================================================
+main.pyw
+==================================================
+# -*- coding:utf-8 -*-
+from pynput.keyboard import Key, Controller
+
+import os
+import time
+import dome1
+import dome2
+import tkinter as tk
+from tkinter import messagebox
+
+def is_number(s):
+    try:  # 如果能运行float(s)语句，返回True（字符串s是浮点数）
+        float(s)
+        return True
+    except ValueError:  # ValueError为Python的一种标准异常，表示"传入无效的参数"
+        pass  # 如果引发了ValueError这种异常，不做任何事情（pass：不做任何事情，一般用做占位语句）
+    try:
+        import unicodedata  # 处理ASCii码的包
+        unicodedata.numeric(s)  # 把一个表示数字的字符串转换为浮点数返回的函数
+        return True
+    except (TypeError, ValueError):
+        pass
+    return False
+    #使用:https://blog.csdn.net/m0_37622530/article/details/81289520
+def main():
+    def sad():
+        with open(os.path.join(os.getcwd(), '.txt\\activation.txt'), "r+", encoding='UTF-8')as f:
+            if f.read() == '12344321':
+                a = send_a.get()
+                b = IntervalTime_a.get()
+                if is_number(a)==False:
+                    messagebox.showinfo('提示','发送次数为正整数')
+                if is_number(b)==False:
+                    messagebox.showinfo('提示', '发送次数为正数')
+                else:
+                    IntervalTime = float(b)
+                    send = int(a)
+                    text = text_a.get()
+                    w.destroy()
+                    keyboard = Controller()
+                    if send==0:
+                        dome1.dome0()
+                        while True:
+                            keyboard.type(text)
+                            keyboard.press(Key.enter)
+                            keyboard.release(Key.enter)
+                            time.sleep(IntervalTime)
+                    else:
+                        dome1.dome0()
+                        for s in range(send):
+                            keyboard.type(text)
+                            keyboard.press(Key.enter)
+                            keyboard.release(Key.enter)
+                            time.sleep(IntervalTime)
+                        e = tk.Tk()
+                        e.geometry('200x100+700+400')
+                        d = tk.Label(e, text='运行完成！', fg="black", font=('Times', 25))
+                        d.pack()
+            else:
+                messagebox.showinfo('提示', '     请先激活      ')
+    w = tk.Tk()
+    def dome0():
+        w.destroy()
+        dome2.sss()
+    w.geometry('300x200+700+400')
+    w.title("tk GUI")
+
+    tk.Label(w, text="发送次数:", fg="black", font=('Times', 12)).place(x=10, y=30)
+    send_a = tk.Entry(w, width=20, relief='solid')
+    send_a.place(x=85, y=32)
+
+    tk.Label(w, text='内容:', fg="black", font=('Times', 12)).place(x=10, y=60)
+    text_a = tk.Entry(w, width=20, relief='solid')
+    text_a.place(x=85, y=62)
+
+    tk.Label(w, text='间隔时长:', fg="black", font=('Times', 12)).place(x=10, y=90)
+    IntervalTime_a = tk.Entry(w, width=20, relief='solid')
+    IntervalTime_a.place(x=85, y=92)
+
+    tk.Button(w, text='下一步', command=sad).place(x=130, y=130)
+    tk.Button(w, text='更多', command=dome0).place(x=260, y=10)
+
+    w.mainloop()
+
+if __name__ == '__main__':
+    main()
+==================================================
+dome1.py
+==================================================
+# -*- coding:utf-8 -*-
+
+import time
+import os
+import tkinter as tk
+from tkinter import messagebox
+
+def asd():
+    with open(os.path.join(os.getcwd(), '.txt\\activation.txt'), "r+", encoding='UTF-8')as f:
+        if f.read() == '12344321':
+            messagebox.showinfo('提示','     您已激活      ')
+        else:
+            q = tk.Tk()
+            q.geometry('+760+470')
+            tk.Label(q, text="激活码:", fg="black", font=('Times', 12)).pack()
+            m = tk.Entry(q, width=20, relief='solid',show='?')
+            m.pack()
+
+            def qwe():
+                if m.get() == '12344321':
+                    with open(os.path.join(os.getcwd(), '.txt\\activation.txt'), "r+", encoding='UTF-8')as f:
+                        f.seek(0)
+                        f.truncate()
+                        f.write('12344321')
+                        q.destroy()
+                        messagebox.showinfo('提示','   激活成功!    ')
+                else:
+                    messagebox.showwarning('警告','   激活码错误   ')
+                    q.destroy()
+            tk.Button(q, text="确定", command=qwe).pack()
+
+def dome0():
+    a = tk.Tk()
+    a.geometry('200x75+750+400')
+    tk.Label(a, text="秒后开始\n\n请将光标移至输入框   ", fg="black", font=('Times', 10)).place(x=50, y=20)
+    b = 3
+    c = tk.Entry(a, width=2)
+    c.place(x=70, y=20)
+    for s in range(b + 2):
+        c.insert(0, b)
+        time.sleep(1)
+        a.update()
+        c.delete(0, tk.END)
+        b -= 1
+        if b == -1:
+            break
+    a.destroy()
+==================================================
+dome2.py
+==================================================
+# -*- coding:utf-8 -*-
+
+import tkinter as tk
+import os
+import dome1
+import main
+
+def sss():
+    r = tk.Tk()
+    def qAq():
+        r.destroy()
+        main.main()
+    r.title("更多")
+    r.geometry('300x150+700+400')
+    text = tk.Label(r, text="微信自动发送\n设置", fg="black", font=('conslas', 20))
+    text.pack()
+    tk.Button(r, text="   bilibili   ", command=bilibili).place(x=50, y=100)
+    tk.Button(r, text='   激活   ', command=l).place(x=170, y=60)
+    tk.Button(r, text='查看源代码', command=code).place(x=50, y=60)
+    tk.Button(r, text=' github ', command=github).place(x=170, y=100)
+    tk.Button(r, text="←", command=qAq).place(x=0, y=0)
+    r.mainloop()
+
+def github():
+    os.system('start https://github.com/luhaoyang12')
+def l():
+    dome1.asd()
+def code():
+    os.startfile(os.path.join(os.getcwd(), '.txt\\code.txt'))
+def bilibili():
+    os.system('start https://space.bilibili.com/3546557691464607?spm_id_from=333.1007.0.0')
+
+==================================================
